@@ -10,6 +10,6 @@
 메인  
 http://www.kulry.shop  
 
-api docs  
-http://www.kulry.shop/v2/api-docs  
+swagger2  
+http://www.kulry.shop/swagger-ui.html 
 
