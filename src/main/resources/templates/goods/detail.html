@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+
+    <div aria-live="polite" aria-atomic="true" class="bg-dark position-relative bd-example-toasts">
+        <div class="toast-container position-absolute p-3 top-0 end-0" id="toastPlacement">
+            <div class="toast">
+                <div class="toast-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <img style="width:100%;height:100%;" th:src="${goods.img}" class="card-img-top" alt="">
+                        </div>
+                        <div class="col-9">
+                            <div th:text="${goods.name}"></div>
+                            <div><strong>장바구니에 상품을 담았습니다.</strong></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="countModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">알림메세지</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                       수량은 반드시 1 이상이어야 합니다.
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row row-cols-1 row-cols-md-2">
+
+            <div class="col">
+<!--                <img src="/img/단호박경단.PNG" class="card-img-top" alt="">-->
+                <img th:src="${goods.img}" class="card-img-top" alt="">
+            </div>
+
+            <div class="col">
+
+                    <p class="fs-4" th:text="${goods.name}"></p>
+                    <p th:text="${goods.description}"></p>
+                    <p><span id="price" th:text="${goods.price}"></span>원</p>
+
+                    <table class="table">
+                        <thead>
+
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">판매단위</th>
+                                <td>1팩(2팩부터 구매 가능)</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">중량/용량</th>
+                                <td>240g</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">배송구분</th>
+                                <td>샛별배송/택배배송</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">포장타입</th>
+                                <td>택배배송은 에코포장이 스티로폼으로 대체됩니다.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">알레르기정보</th>
+                                <td>-대두, 땅콩, 밀과 같은 시설에서 생산</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">보증 유통기한</th>
+                                <td>최소 72일 이상 남아있는 제품을 발송해드립니다.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">안내사항</th>
+                                <td>-해당상품의 최소 구매수량은 2개입니다. 구매에 참고 부탁드립니다.</td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">구매수량</th>
+                                <td><input id="count" type="number" class="form-control" min="0" placeholder="수량을 선택해 주세요"
+                                onChange="changeTotal()"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>총 상품금액 : <span id="total" th:text="${goods.price}"></span>원</p>
+
+                    <button type="button" class="btn btn-outline-primary btn-lg disabled">재입고 알림</button>
+                    <button type="button" class="btn btn-outline-primary btn-lg disabled">늘 사는 것</button>
+                    <button type="button" class="btn btn-primary btn-lg" onclick="saveCart()"
+                            >장바구니 담기</button>
+
+
+            </div>
+
+
+        </div>
+
+        <nav style="margin-top:50px">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">상품설명</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">상세정보</button>
+                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">고객후기</button>
+                <button class="nav-link" id="nav-q-tab" data-bs-toggle="tab" data-bs-target="#nav-q" type="button" role="tab" aria-controls="nav-q" aria-selected="false">상품문의</button>
+            </div>
+        </nav>
+
+        <div class="tab-content text-center m-5" id="nav-tabContent">
+
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                <img src="//img-cf.kurly.com/shop/data/goods/daily/0e91f30d76f3e5f27209.jpg">
+
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+            <div class="tab-pane fade" id="nav-q" role="tabpanel" aria-labelledby="nav-q-tab">...</div>
+
+        </div>
+
+    </div>
+</body>
+<script>
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function (toastEl) {
+              return new bootstrap.Toast(toastEl, 'autohide')
+            })
+    var myModal = new bootstrap.Modal(document.getElementById('countModal'), {
+      keyboard: false
+    })
+
+            function changeTotal(){
+                var price = parseInt($('#price').text())
+                var count = parseInt($('#count').val())
+                if(count >= 0)
+                    $('#total').text( price * count )
+            }
+
+            function saveCart(){
+
+                if(!$('#loginName').text()){
+                    location.replace('/oauth2/authorization/google');
+                    return
+                }
+
+                var count = parseInt($('#count').val())
+                var id = [[${goods.id}]];
+
+                if(!count || count < 1){
+                    myModal.show()
+                    return
+                }
+
+               save({ count : count, goodsId : id });
+
+            }
+
+            function save(data){
+
+                    $.ajax({
+                    url:"/cart"
+                    ,data:data
+                    ,type:"POST"
+                    })
+                    .done(function() {
+
+                        $('.toast').toast('show')
+
+                    })
+                    .fail(function() {
+
+                        alert("요청 실패");
+                    })
+
+            }
+</script>
+</html>

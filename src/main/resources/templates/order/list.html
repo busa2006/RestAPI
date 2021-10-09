@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+
+<script>
+
+
+
+</script>
+<div th:replace="fragments/bodyHeader :: bodyHeader" />
+
+<div class="container">
+  <main>
+    <div class="row mt-3" >
+
+      <div><h5 class="text-start">주문 내역</h5></div>
+      <hr  style="color:black">
+
+      <div th:each="item,i : ${orders}" class="mb-3">
+        <h5 class="text-start" th:text="${item.orderDate}"></h5>
+        <div class="card">
+          <div class="card-header" >
+            <div class="row">
+              <div class="col-11">
+                <span th:text="${item.firstItem}"></span>
+              </div>
+              <div class="col-1 text-end">
+                <a th:href="@{/order/list/{id} (id=${item.id})}">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-2">
+                <img class="card-img" src="/img/단호박경단.PNG">
+              </div>
+              <div class="col-10">
+                <dl class="row">
+                  <dt class="col-md-2">주문번호</dt>
+                  <dd class="col-sm-10" th:text="${item.id}"></dd>
+
+                  <dt class="col-md-2">결제금액</dt>
+                  <dd class="col-sm-10" th:text="${item.price}"></dd>
+
+                  <dt class="col-md-2">주문상태</dt>
+                  <dd class="col-sm-10" th:text="${item.status}"></dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+</body>
+<script>
+
+
+
+</script>
+</html>

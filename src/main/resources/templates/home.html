@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://img-cf.kurly.com/shop/data/main/1/pc_img_1626426244.jpg" class="d-block w-100" alt="">
+            </div>
+            <div class="carousel-item">
+                <img src="https://img-cf.kurly.com/shop/data/main/1/pc_img_1626322633.jpg" class="d-block w-100" alt="">
+            </div>
+            <div class="carousel-item">
+                <img src="https://img-cf.kurly.com/shop/data/main/1/pc_img_1626419464.jpg" class="d-block w-100" alt="">
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+
+    </div>
+
+    <div class="container">
+            <div class="row" style="margin-top:50px;">
+                <p class="text-center fs-3">이 상품 어때요?</p>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+
+                <div th:each="item : ${goods}" class="col">
+                    <div class="card h-100">
+                        <a th:href="@{/goods/{id} (id=${item.id})}">
+                            <img th:src="${item.img}" class="card-img-top" alt="">
+                        </a>
+                        <div class="card-body">
+                            <h7 class="card-title" th:text="${item.name}"></h7>
+                            <p class="card-text" ><span th:text="${#numbers.formatInteger(item.price,3,'COMMA') }"></span>원</p>
+                        </div>
+                    </div>
+                </div>
+
+
+<!--                <div class="col">-->
+<!--                    <div class="card">-->
+<!--                        <img src="/img/새우짱.PNG" class="card-img-top" alt="">-->
+<!--                        <div class="card-body">-->
+<!--                            <h7 class="card-title">새우짱</h7>-->
+<!--                            <p class="card-text">6,000원</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="col">-->
+<!--                    <div class="card">-->
+<!--                        <img src="/img/요플레.PNG" class="card-img-top" alt="">-->
+<!--                        <div class="card-body">-->
+<!--                            <h7 class="card-title">요플레</h7>-->
+<!--                            <p class="card-text">6,000원</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="col">-->
+<!--                    <div class="card">-->
+<!--                        <img src="/img/가루.PNG" class="card-img-top" alt="">-->
+<!--                        <div class="card-body">-->
+<!--                            <h7 class="card-title">참외</h7>-->
+<!--                            <p class="card-text">6,000원</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+    </div>
+
+    <div class="bg-light">
+        <div class="container">
+
+                <div class="row" style="padding-top:50px;margin-top:50px;">
+                    <p class="text-center fs-3">이벤트 소식</p>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-3 " style="padding-bottom:50px;">
+
+                    <div class="col">
+                        <div class="card mb-3">
+                            <img src="/img/오리온할인.PNG" class="card-img-top" alt="">
+                            <div class="card-body">
+                                <h7 class="card-title">오리온 최대 12% 할인</h7>
+                                <p class="card-text">초코파이부터 닥터유까지</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card mb-3">
+                            <img src="/img/라라커피.PNG" class="card-img-top" alt="">
+                            <div class="card-body">
+                                <h7 class="card-title">LALA커피 최대 10% 할인</h7>
+                                <p class="card-text">컬리와 전국 유명 카페의 합작품!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card mb-3">
+                            <img src="/img/다이커스.PNG" class="card-img-top" alt="">
+                            <div class="card-body">
+                                <h7 class="card-title">디어커스 최대 20% 할인</h7>
+                                <p class="card-text">주방세제부터 욕실화까지</p>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+</body>
+</html>

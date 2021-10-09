@@ -1,0 +1,35 @@
+spring:
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  datasource: #띄어쓰기 2칸
+    #url: jdbc:h2:tcp://localhost/~/jpashop #4칸
+#    username: sa
+#    password:
+    #driver-class-name: org.h2.Driver
+#    url : jdbc:mysql://192.168.25.31:3306/jpashop?serverTimezone=UTC&characterEncoding=UTF-8
+#    password : root
+    url : jdbc:mysql://database-1.cry2vlchfgw9.ap-northeast-2.rds.amazonaws.com:3306/innodb?serverTimezone=UTC&characterEncoding=UTF-8
+    password: z7433731
+    username: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa: #띄어쓰기 2칸
+    hibernate: #띄어쓰기 4칸
+      use-new-id-generator-mappings : true
+      ddl-auto: update #띄어쓰기 6칸
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties: #띄어쓰기 4칸
+      hibernate: #띄어쓰기 6칸
+        show_sql: true #띄어쓰기 8칸
+        format_sql: true #띄어쓰기 8칸
+  profiles:
+    include: oauth
+
+logging.level: #띄어쓰기 없음
+  org.hibernate.SQL: debug #띄어쓰기 2칸
+# org.hibernate.type: trace #띄어쓰기 2칸
+

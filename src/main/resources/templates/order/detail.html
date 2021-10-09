@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+
+<script>
+
+
+
+</script>
+<div th:replace="fragments/bodyHeader :: bodyHeader" />
+
+<div class="container">
+  <main>
+    <div class="row mt-3" >
+
+      <div><h5 class="text-start">주문 내역 상세</h5></div>
+      <hr  style="color:black">
+
+      <div th:each="item,i : ${orderGoods}" class="row" th:id="|carts${item.id}|">
+
+        <div class="row m-3">
+          <div class="col-md-2 d-flex align-items-center">
+            <img style="width:100%;height:100%" class="rounded" th:src="${item.goods.img}">
+          </div>
+          <div class="col-md-10 d-flex align-items-center">
+            <div>
+                <div th:text="${item.goods.name}"></div>
+                <div><span th:text="${item.goods.price}"></span>원 | <span th:text="${item.count}"></span>개</div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <hr style="color:lightgray">
+
+      </div>
+
+    </div>
+
+  </main>
+</div>
+</body>
+<script>
+
+
+
+</script>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+
+<script>
+
+
+
+</script>
+<div th:replace="fragments/bodyHeader :: bodyHeader" />
+
+<div class="container">
+    <main>
+        <div class="row" >
+            <div class="text-center mb-5 mt-5">
+                <h2>주문서</h2>
+            </div>
+
+
+
+                <div class="row my-5">
+                    <div><h5>주문상품</h5></div>
+                    <hr  style="color:black">
+                    <div th:each="item,i : ${carts}" th:id="|carts${item.id}|">
+                        <div class="row">
+                            <div class="col-md-2 d-flex align-items-center">
+                                <img style="width:100%;height:100%" class="rounded" th:src="${item.goods.img}">
+                            </div>
+                            <div th:text="${item.goods.name}" class="col-md-5 d-flex align-items-center">
+                            </div>
+                            <div class="col-md-2 d-flex align-items-center">
+                                <div><span th:text="${item.count}" ></span>개</div>
+                            </div>
+                            <div  class="col-md-2 d-flex align-items-center flex-row-reverse">
+                                <div class="text-end"><span th:text="${item.goods.price}"></span>원</div>
+                            </div>
+
+                        </div>
+
+                        <hr  style="color:lightgray">
+
+                    </div>
+                </div>
+
+
+                <div class="row my-5">
+                    <div><h5>주문자 정보</h5></div>
+                    <hr  style="color:black">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-2">
+                                보내는 분
+                            </div>
+                            <div class="col-10" th:text="${session.name}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                휴대폰
+                            </div>
+                            <div class="col-10">
+                                12345678
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                이메일
+                            </div>
+                            <div class="col-10">
+                                123@123.com
+                            </div>
+                        </div>
+                    </div>
+                    <hr  style="color:lightgray">
+                </div>
+
+                <div>
+                    <div><h5>배송 정보</h5></div>
+                    <hr  style="color:black">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-2">
+                                배송지
+                            </div>
+                            <div class="col-10" id="address" th:text="${address}" >
+                            </div>
+                        </div>
+                    </div>
+                    <hr  style="color:lightgray">
+                </div>
+
+
+                <div class="row my-5  text-center">
+                    <div class="col-12">
+                        <button type="button" id="payment" class="btn btn-primary btn-lg">결제하기</button>
+                    </div>
+                </div>
+
+        </div>
+    </main>
+</div>
+</body>
+<script>
+
+    IMP.init('imp59394452'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+
+    $("#payment").click(function(e){
+
+        saveOrder();
+
+    });
+
+    function saveOrder(){
+                var data = { address : $('#address').text() }
+                $.ajax({
+                    url:"/order"
+                    ,type:"POST"
+                    ,data:data
+                })
+                .done(function() {
+                    alert('주문이 완료되었습니다.')
+                    location.replace("/");
+                })
+                .fail(function(error) {
+                    console.log(error);
+                    alert(error);
+
+                })
+     }
+
+
+</script>
+</html>

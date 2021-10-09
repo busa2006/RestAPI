@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+
+</head>
+<body>
+<div th:replace="fragments/bodyHeader :: bodyHeader" />
+
+    <div class="container">
+        <main>
+            <div class="row g-5">
+                <div class="py-5 text-center">
+                    <h2>장바구니</h2>
+                </div>
+                <div class="col-md-5 col-lg-4 order-md-last ">
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">
+                            <div class="m-1">
+                                <div>
+                                    <h6> <img style="width:20px;height:20px;" src="./img/location.png"> 배송지</h6>
+                                </div>
+
+                                <div  id='address' class="mb-2">
+                                    <span>배송지를 입력</span>하고<br>
+                                    배송유형을 확인해 보세요!
+                                </div>
+
+                                <div class="d-grid gap-2">
+                                    <button type="button" class="btn btn-primary" id="addressSearch">주소 검색</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+
+                            <div class="m-3">
+                                <h6 class="my-0">
+                                    결제예정금액
+                                </h6>
+                            </div>
+                            <div class="m-3">
+                                <div><span id="totalPrice" th:text="${totalPrice}"></span>원</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="d-grid gap-2">
+
+                        <button type="button"
+                                class="btn btn-primary btn-lg"
+                                id="orderBtn">주문하기</button>
+
+
+                    </div>
+                </div>
+                <div class="col-md-7 col-lg-8">
+                    <hr class="my-0">
+
+                    <div id="noData" class="py-5 text-center" style="display: none;">
+                        <h5>장바구니에 담긴 상품이 없습니다.</h5>
+                    </div>
+
+                    <div class="container" id="cartContainer">
+
+                        <div th:each="item,i : ${carts}" class="col" th:id="|carts${item.id}|">
+
+                            <div class="row m-3">
+                                <div class="col-md-2 d-flex align-items-center">
+                                        <img style="width:100%;height:100%" class="rounded" th:src="${item.goods.img}">
+                                </div>
+                                <div th:text="${item.goods.name}" class="col-md-5 d-flex align-items-center">
+                                </div>
+                                <div class="col-md-2 d-flex align-items-center">
+                                        <input min="1" type="number" th:data-price="${item.goods.price}" th:data-id="${item.id}" class="count-input form-control" th:value="${item.count}" >
+                                </div>
+                                <div  class="col-md-2 d-flex align-items-center flex-row-reverse">
+                                    <div class="text-end"><span th:text="${item.totalPrice}" th:id="|price${item.id}|"></span>원</div>
+                                </div>
+
+                                <div class="col-md-1 d-flex align-items-center">
+                                    <div class="removeBtn" style="cursor:pointer" th:id="${item.id}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr th:if="${i.count != i.size}" style="color:lightgray">
+
+                        </div>
+
+                    </div>
+
+                    <hr class="my-0">
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+<script>
+
+   var address = '';
+
+   validateCart();
+
+
+    $('#orderBtn').click(function(e){
+        location.href="order/" + address ;
+    })
+
+    $("#addressSearch").click(function(e){
+
+        new daum.Postcode({
+            oncomplete: function(data) {
+                $('#address').text(data.jibunAddress)
+                address = data.jibunAddress;
+                validateCart();
+            }
+        }).open();
+
+    });
+
+    $(".count-input").change(function(e){
+        var target = e.currentTarget;
+        var pre = parseInt($('#price' + target.dataset.id).text())
+        var aft = parseInt(target.dataset.price) * parseInt(target.value)
+        $('#price' + target.dataset.id).text(aft)
+        $('#totalPrice').text( parseInt($('#totalPrice').text()) + aft - pre )
+        changeCount(target.dataset.id,parseInt(target.value));
+
+    });
+
+    $(".removeBtn").click(function(e){
+
+      removeCart(e);
+
+    });
+
+   function changeCount(cartId,count){
+           var data = {count:count};
+           $.ajax({
+               url:"/api/v1/carts/" + cartId
+               ,type:"PUT"
+               ,data:JSON.stringify(data)
+               ,contentType: 'application/json'
+           }).done(function() {
+
+           })
+           .fail(function(error) {
+               console.log(error);
+               alert(error);
+           })
+   }
+
+    function removeCart(e){
+
+                var cartId = parseInt(e.currentTarget.id)
+                $.ajax({
+                url:"cart/" + cartId
+                ,type:"DELETE"
+                })
+                .done(function() {
+                    $('#totalPrice').text( parseInt($('#totalPrice').text()) - parseInt($('#price' + cartId).text()) )
+                    $('#carts' + cartId ).remove();
+                    validateCart();
+
+                })
+                .fail(function(error) {
+                    console.log(error);
+                    alert(error);
+
+                })
+     }
+
+     function validateCart(){
+
+        if( $('.removeBtn').length == 0 ){
+           $('#noData').show()
+           $('#orderBtn').addClass('disabled')
+           $('#orderBtn').text('상품을 담아주세요')
+           return;
+        }
+
+        if(!address){
+           $('#orderBtn').addClass('disabled')
+           $('#orderBtn').text('배송지를 입력해주세요')
+           return;
+        }
+
+        $('#orderBtn').removeClass('disabled')
+        $('#orderBtn').text('주문하기')
+
+     }
+
+
+
+</script>
+</html>

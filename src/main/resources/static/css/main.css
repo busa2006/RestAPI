@@ -1,0 +1,8 @@
+*{
+    font-family : noto sans;
+}
+a:link,a:visited,a:hover{
+ color: black;
+ text-decoration: none;
+}
+

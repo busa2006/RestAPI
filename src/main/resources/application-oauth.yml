@@ -1,0 +1,12 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 603709077804-rp6gb82cninabmfk52b4te2jl78cn9rf.apps.googleusercontent.com
+            client-secret: PTreSimLJ7L2D5h-7Bf52bPk
+            authorization-grant-type: authorization_code
+            redirect-uri: http://www.kulry.shop/login/oauth2/code/google
+            scope: profile,email
+
